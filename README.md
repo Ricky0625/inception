@@ -43,3 +43,96 @@ Each of the service should has its own Dockerfile. The Dockerfile must be called
 - A simple static website in the language of your choice except PHP.
 - Set up `Adminer`
 - Set up a service of your choice that you think is useful. (eg: Grafana, Prometheus, etc.)
+
+## Docker
+
+### Docker Commands
+
+```shell
+# list all the running containers
+docker ps
+
+# list all the images
+docker images
+
+# build images
+docker build -t app:1.0 .
+# docker build <option> <app name> <where is the dockerfile>
+# -t is to name it
+
+# create a running process, called a container
+docker run b909406d737c
+# docker run <image id>
+
+# with port-forwarding:
+docker run -p 5000:8080 b909406d737c
+# port- local:container
+
+# create a volume
+docker volume create shared-stuff
+
+# mount volume
+docker run --mount source=shared_stuff,target=/stuff
+```
+
+### Dockerfile
+
+Every instruction in the Dockerfile is consider as a Layer. To keep things efficient, docker will cache layers if nothing is actually changed.
+
+```Dockerfile
+# The first instruction in our Dockerfile (must be)
+# Set the base image to use in the subsequent instructions
+FROM baseImage
+
+# It's like cd into a directory and the subsequent instructions will start from this directory
+WORKDIR /app
+
+# Copy files or folders from source to the dest path in the image's filesystem
+COPY source dest
+COPY hello.txt /absolute/path
+COPY hello.txt relative/to/workdir
+
+# it's like opening a terminal session and run commands
+RUN npm install
+
+# copy source code (demo only)
+# but what if we want to ignore some folders/files?
+# we can do that by creating a .dockerignore (just like a gitignore file)
+COPY . .
+
+# set environment variable
+ENV PORT=8080
+
+# expose port
+EXPOSE 8080
+
+# the final instruction, CMD
+# tells the container how to run the actual application
+# unlike RUN, which is in a SHELL FORM, CMD is in EXEC FORM
+CMD ["npm", "start"]
+```
+
+### Docker Compose
+
+A tool for running multiple docker containers at the same time.
+
+```yml
+version: '3'
+services:
+  web:
+    build: .
+    ports:
+      - "8080:8080"
+  db:
+    image: "mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+     - db-data:/foo
+```
+
+Run docker compose:
+
+```shell
+docker-compose up
+```
