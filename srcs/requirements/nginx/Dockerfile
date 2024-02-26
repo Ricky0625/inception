@@ -4,8 +4,7 @@ FROM debian:bullseye
 RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
 
 # copy config file into image
-COPY ./conf/nginx.conf /etc/nginx/sites-available/nginx.conf
-RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled
+COPY ./conf/nginx.conf /etc/nginx/sites-available/default
 
 # testing
 EXPOSE 443
