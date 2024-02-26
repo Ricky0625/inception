@@ -1,6 +1,6 @@
 #!/bin/bash
 
-output_folder="./srcs/requirements/nginx/ssl"
+output_folder="$HOME/data/ssl"
 certificate_file="$output_folder/inception.crt"
 private_key="$output_folder/inception.key"
 

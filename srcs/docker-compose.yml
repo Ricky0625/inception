@@ -3,5 +3,14 @@ services:
   nginx:
     build: requirements/nginx
     ports:
-      - target: 80
-        published: 8080
+      - "443:443"
+    volumes:
+      - ssl_volume:/etc/nginx/ssl
+
+volumes:
+  ssl_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/ricky0625/data/ssl

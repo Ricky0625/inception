@@ -6,7 +6,7 @@
 #    By: wricky-t <wricky-t@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/19 15:30:33 by wricky-t          #+#    #+#              #
-#    Updated: 2024/02/20 15:38:01 by wricky-t         ###   ########.fr        #
+#    Updated: 2024/02/22 20:47:19 by wricky-t         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ help:
 	@echo "  clean   : Stop and remove the Docker images and containers"
 	@echo "  fclean  : Stop and remove the Docker images, containers, and volumes"
 	@echo "  restart : Restart the Docker containers"
+	@echo "  rebuild : fclean & up"
 	@echo "  setup   : Run the scripts to generate ssl and the data folder"
 
 build: setup
@@ -46,9 +47,11 @@ fclean:
 
 restart: down up	
 
+rebuild: fclean up
+
 setup:
-	@chmod +x $(SSL_SETUP_SCRIPT) $(DATA_SETUP_SCRIPT)
-	@$(SSL_SETUP_SCRIPT)
+	@chmod +x $(DATA_SETUP_SCRIPT) $(SSL_SETUP_SCRIPT)
 	@$(DATA_SETUP_SCRIPT)
+	@$(SSL_SETUP_SCRIPT)
 
 .PHONY: help build up down clean fclean restart
