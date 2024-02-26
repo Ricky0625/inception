@@ -6,6 +6,22 @@ services:
       - "443:443"
     volumes:
       - ssl_volume:/etc/nginx/ssl
+      - html_volume:/var/www/html
+    depends_on:
+      - wordpress
+    networks:
+      - inception_net
+
+  wordpress:
+    build: requirements/wordpress
+    ports:
+      - "9000:9000"
+    volumes:
+      - html_volume:/var/www/html
+    env_file:
+      - .env
+    networks:
+      - inception_net
 
 volumes:
   ssl_volume:
@@ -14,3 +30,13 @@ volumes:
       type: none
       o: bind
       device: /home/ricky0625/data/ssl
+
+  html_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/ricky0625/data/html
+
+networks:
+  inception_net:
