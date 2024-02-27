@@ -6,7 +6,7 @@
 #    By: wricky-t <wricky-t@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/19 15:30:33 by wricky-t          #+#    #+#              #
-#    Updated: 2024/02/22 20:47:19 by wricky-t         ###   ########.fr        #
+#    Updated: 2024/02/27 16:40:44 by wricky-t         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,9 +43,10 @@ clean:
 fclean:
 	docker compose -f $(COMPOSE_FILE) -p $(NAME) down --volumes --rmi all
 	@chmod +x $(CLEANUP_SCRIPT)
+	sudo chown -R $(USER):$(USER) ~/data/html
 	@$(CLEANUP_SCRIPT)
 
-restart: down up	
+restart: down up
 
 rebuild: fclean up
 

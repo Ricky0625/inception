@@ -2,26 +2,33 @@ version: '3'
 services:
   nginx:
     build: requirements/nginx
-    ports:
-      - "443:443"
     volumes:
       - ssl_volume:/etc/nginx/ssl
       - html_volume:/var/www/html
+    ports:
+      - "443:443"
+    networks:
+      - network
     depends_on:
       - wordpress
-    networks:
-      - inception_net
 
   wordpress:
     build: requirements/wordpress
-    ports:
-      - "9000:9000"
     volumes:
       - html_volume:/var/www/html
+    networks:
+      - network
     env_file:
       - .env
+    depends_on:
+      - mariadb
+    
+  mariadb:
+    build: requirements/mariadb
     networks:
-      - inception_net
+      - network
+    env_file:
+      - .env
 
 volumes:
   ssl_volume:
@@ -39,4 +46,5 @@ volumes:
       device: /home/ricky0625/data/html
 
 networks:
-  inception_net:
+  network:
+    driver: bridge

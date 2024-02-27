@@ -1,0 +1,35 @@
+# this is only for the mysqld standalone daemon
+[mysqld]
+
+#
+# * Basic Settings
+#
+
+user                    = mysql
+pid-file                = /run/mysqld/mysqld.pid
+basedir                 = /usr
+datadir                 = /var/lib/mysql
+tmpdir                  = /tmp
+
+# Instead of skip-networking the default is now to listen only on
+# localhost which is more compatible and is not less secure.
+# change to 0.0.0.0 to allow remote connection
+bind-address            = 0.0.0.0
+
+#
+# * Fine Tuning
+#
+
+# The following can be used as easy to replay backup logs or for replication.
+# note: if you are setting up a replication slave, see README.Debian about
+#       other settings you may need to change.
+expire_logs_days        = 10
+
+#
+# * Character sets
+#
+
+# MySQL/MariaDB default is Latin1, but in Debian we rather default to the full
+# utf8 4-byte character set. See also client.cnf
+character-set-server  = utf8mb4
+collation-server      = utf8mb4_general_ci

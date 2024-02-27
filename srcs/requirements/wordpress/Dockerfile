@@ -6,21 +6,21 @@ RUN apt-get update \
         php7.4 \
         php7.4-fpm \
         php7.4-mysqli \
-        php7.4-gd \
-        php7.4-xml \
         curl \
     && curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
     && mv wp-cli.phar /usr/local/bin/wp \
     && rm -rf /var/lib/apt/lists/*
 
+COPY ./config/www.conf /etc/php/7.4/fpm/pool.d/www.conf
+
 COPY ./tools/install_wp.sh /scripts/
 RUN chmod +x /scripts/install_wp.sh
+
+EXPOSE 9000
 
 WORKDIR /var/www/html
 
 ENTRYPOINT ["/scripts/install_wp.sh"]
-
-EXPOSE 9000
 
 CMD ["php-fpm7.4", "-F"]
