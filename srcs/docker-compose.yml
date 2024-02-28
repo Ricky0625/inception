@@ -1,10 +1,11 @@
 version: '3'
 services:
   nginx:
+    container_name: nginx
     build: requirements/nginx
     volumes:
-      - ssl_volume:/etc/nginx/ssl
-      - html_volume:/var/www/html
+      - ssl:/etc/nginx/ssl
+      - wp_files:/var/www/html
     ports:
       - "443:443"
     networks:
@@ -13,37 +14,49 @@ services:
       - wordpress
 
   wordpress:
+    container_name: wordpress
     build: requirements/wordpress
     volumes:
-      - html_volume:/var/www/html
+      - wp_files:/var/www/html
     networks:
       - network
     env_file:
       - .env
     depends_on:
       - mariadb
+    restart: unless-stopped
     
   mariadb:
+    container_name: mariadb
     build: requirements/mariadb
+    volumes:
+      - db:/var/lib/mysql
     networks:
       - network
     env_file:
       - .env
 
 volumes:
-  ssl_volume:
+  ssl:
     driver: local
     driver_opts:
       type: none
       o: bind
       device: /home/ricky0625/data/ssl
 
-  html_volume:
+  wp_files:
     driver: local
     driver_opts:
       type: none
       o: bind
       device: /home/ricky0625/data/html
+  
+  db:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/ricky0625/data/db
 
 networks:
   network:

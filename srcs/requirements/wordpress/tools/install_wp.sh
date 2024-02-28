@@ -2,14 +2,16 @@
 
 # should run this script in /var/www/html. this is where wp-config.php will be located.
 
+# need this otherwise cannot run :)
+mkdir -p /run/php/
+chown -R www-data:www-data /var/www/html
+chmod -R 755 /var/www/html
+
 WP_CONFIG="./wp-config.php"
 
 if [ -e "$WP_CONFIG" ]; then
     exit 1
 fi
-
-chown -R www-data:www-data /var/www/html
-chmod -R 755 /var/www/html
 
 # fetches necessary files for wordpress
 wp core download --allow-root
@@ -36,9 +38,6 @@ wp user create "$WP_USER_USER" "$WP_USER_EMAIL" \
     --first_name="$WP_USER_FNAME" \
     --last_name="$WP_USER_LNAME" \
     --allow-root
-
-# need this otherwise cannot run :)
-mkdir -p /run/php/
 
 # pass over to another command
 exec "$@"

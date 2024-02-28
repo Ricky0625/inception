@@ -3,14 +3,13 @@
 # create a directory that is typically used for storing the MySQL/MariaDB daemon (server) socket file.
 mkdir -p /run/mysqld
 chown -R mysql:mysql /run/mysqld
+chown -R mysql:mysql /var/lib/mysql
 
 # Initialize the database if not already done
 # this directory is part of the default MySQL/MariaDB data directory.
 # it contains system tables and files that store metadata about databases
 # and other global settings.
 if [ ! -d "/var/lib/mysql/${WP_DB_NAME}" ]; then
-
-    chown -R mysql:mysql /var/lib/mysql
 
     # Initialize database
     # --basedir specifies the base directory where the MySQL distribution is installed

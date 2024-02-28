@@ -6,7 +6,7 @@
 #    By: wricky-t <wricky-t@student.42kl.edu.my>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/19 15:30:33 by wricky-t          #+#    #+#              #
-#    Updated: 2024/02/27 16:40:44 by wricky-t         ###   ########.fr        #
+#    Updated: 2024/02/28 10:21:31 by wricky-t         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ down:
 	docker compose -f $(COMPOSE_FILE) -p $(NAME) down
 
 clean:
-	docker compose -f $(COMPOSE_FILE) -p $(NAME) down --rmi
+	docker compose -f $(COMPOSE_FILE) -p $(NAME) down --rmi all
 
 fclean:
 	docker compose -f $(COMPOSE_FILE) -p $(NAME) down --volumes --rmi all
@@ -48,7 +48,7 @@ fclean:
 
 restart: down up
 
-rebuild: fclean up
+rebuild: clean up
 
 setup:
 	@chmod +x $(DATA_SETUP_SCRIPT) $(SSL_SETUP_SCRIPT)
