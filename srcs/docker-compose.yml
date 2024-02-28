@@ -29,8 +29,8 @@ services:
   mariadb:
     container_name: mariadb
     build: requirements/mariadb
-    volumes:
-      - db:/var/lib/mysql
+    # volumes:
+    #   - db:/var/lib/mysql
     networks:
       - network
     env_file:
@@ -42,21 +42,21 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/ricky0625/data/ssl
+      device: /home/ricky/data/ssl
 
   wp_files:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/ricky0625/data/html
+      device: /home/ricky/data/html
   
   db:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/ricky0625/data/db
+      device: /home/ricky/data/db
 
 networks:
   network:

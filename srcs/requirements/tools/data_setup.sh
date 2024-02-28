@@ -8,7 +8,6 @@ db_folder="$data_folder/db"
 
 
 if [ ! -e "$data_folder" ]; then
-    mkdir -p "$data_folder"
     mkdir -p "$ssl_folder"
     mkdir -p "$html_folder"
     mkdir -p "$db_folder"

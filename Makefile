@@ -13,7 +13,6 @@
 NAME				:= inception
 COMPOSE_FILE		:= ./srcs/docker-compose.yml
 SSL_SETUP_SCRIPT	:= ./srcs/requirements/tools/ssl_setup.sh
-DATA_SETUP_SCRIPT	:= ./srcs/requirements/tools/data_setup.sh
 CLEANUP_SCRIPT		:= ./srcs/requirements/tools/cleanup.sh
 
 help:
@@ -43,7 +42,6 @@ clean:
 fclean:
 	docker compose -f $(COMPOSE_FILE) -p $(NAME) down --volumes --rmi all
 	@chmod +x $(CLEANUP_SCRIPT)
-	sudo chown -R $(USER):$(USER) ~/data/html
 	@$(CLEANUP_SCRIPT)
 
 restart: down up
@@ -51,8 +49,7 @@ restart: down up
 rebuild: clean up
 
 setup:
-	@chmod +x $(DATA_SETUP_SCRIPT) $(SSL_SETUP_SCRIPT)
-	@$(DATA_SETUP_SCRIPT)
+	@chmod +x $(SSL_SETUP_SCRIPT)
 	@$(SSL_SETUP_SCRIPT)
 
 .PHONY: help build up down clean fclean restart
