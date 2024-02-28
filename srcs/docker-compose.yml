@@ -12,6 +12,7 @@ services:
       - network
     depends_on:
       - wordpress
+    restart: always
 
   wordpress:
     container_name: wordpress
@@ -24,17 +25,18 @@ services:
       - .env
     depends_on:
       - mariadb
-    restart: unless-stopped
+    restart: always
     
   mariadb:
     container_name: mariadb
     build: requirements/mariadb
-    # volumes:
-    #   - db:/var/lib/mysql
+    volumes:
+      - db:/var/lib/mysql
     networks:
       - network
     env_file:
       - .env
+    restart: always
 
 volumes:
   ssl:

@@ -1,10 +1,8 @@
 #!/bin/bash
 
 # create a directory that is typically used for storing the MySQL/MariaDB daemon (server) socket file.
-if [ ! -d "/run/mysqld" ]; then
-    mkdir -p /run/mysqld
-    chown -R mysql:mysql /run/mysqld
-fi
+mkdir -p /run/mysqld
+chown -R mysql:mysql /run/mysqld
 
 # Initialize the database if not already done
 # this directory is part of the default MySQL/MariaDB data directory.

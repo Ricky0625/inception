@@ -14,6 +14,7 @@ NAME				:= inception
 COMPOSE_FILE		:= ./srcs/docker-compose.yml
 SSL_SETUP_SCRIPT	:= ./srcs/requirements/tools/ssl_setup.sh
 CLEANUP_SCRIPT		:= ./srcs/requirements/tools/cleanup.sh
+DATA_FOLDER			:= /home/ricky/data
 
 help:
 	@echo "Usage: make <option>"
@@ -41,8 +42,7 @@ clean:
 
 fclean:
 	docker compose -f $(COMPOSE_FILE) -p $(NAME) down --volumes --rmi all
-	@chmod +x $(CLEANUP_SCRIPT)
-	@$(CLEANUP_SCRIPT)
+	sudo rm -rf $(DATA_FOLDER)/ssl/* $(DATA_FOLDER)/html/* $(DATA_FOLDER)/db/*
 
 restart: down up
 
