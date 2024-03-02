@@ -3,7 +3,7 @@ FROM debian:bullseye
 RUN apt-get update \
     && apt-get install -y vsftpd \
     && mkdir -p /var/run/vsftpd/empty \
-    && rm -r /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
 COPY ./tools/setup_ftp.sh /scripts/
 RUN chmod +x /scripts/setup_ftp.sh
