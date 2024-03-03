@@ -34,7 +34,18 @@ wp user create "$WP_USER_USER" "$WP_USER_EMAIL" \
     --first_name="$WP_USER_FNAME" \
     --last_name="$WP_USER_LNAME" \
     --allow-root
-    
+
+# BONUS: redis
+# connect to redis container
+wp config set WP_REDIS_HOST 'redis' --type=constant --allow-root
+wp config set WP_REDIS_PORT '6379' --type=constant --allow-root
+
+# install redis plugin
+wp plugin install redis-cache --activate --allow-root
+wp plugin update --all --allow-root
+wp redis enable --allow-root
+wp cache flush --allow-root
+
 chown -R www-data:www-data .
 chmod -R 775 .
 
