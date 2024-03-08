@@ -80,6 +80,13 @@ services:
     depends_on:
       - wordpress
     restart: unless-stopped
+  
+  actual:
+    container_name: actual
+    build: requirements/bonus/actual
+    networks:
+      - network
+    restart: unless-stopped
 
 volumes:
   ssl:
