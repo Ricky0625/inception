@@ -81,9 +81,16 @@ services:
       - wordpress
     restart: unless-stopped
   
-  actual:
-    container_name: actual
-    build: requirements/bonus/actual
+  cadvisor:
+    container_name: cadvisor
+    build: requirements/bonus/cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    ports:
+      - "8080:8080"
     networks:
       - network
     restart: unless-stopped
@@ -109,6 +116,13 @@ volumes:
       type: none
       o: bind
       device: /home/ricky/data/db
+    
+  prometheus:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/ricky/data/prometheus
 
 networks:
   network:
