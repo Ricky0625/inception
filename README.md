@@ -44,95 +44,56 @@ Each of the service should has its own Dockerfile. The Dockerfile must be called
 - Set up `Adminer`
 - Set up a service of your choice that you think is useful. (eg: Grafana, Prometheus, etc.)
 
+## Born2BeRoot (Virtualization)
+
+The Born2BerRoot project at 42 introduces us the world of **virtualization**. In that project, we were tasked to set up a virtual machine and leverage the virtualization technology to simulate a server environment within our local machines. Let's do a quick recap. What is virtualization?
+
+Virtualization is the process of creating virtual instances of computing resources (hardware mostly), allowing multiple operating systems to run on a single physical machine simultaneously. Each VM runs its own operating system (OS) and applications. Normally, we would install a hypervisor (e.g. VMWare, VirtualBox) to manage and supervise our virtual machines. Through virtualization, we can make more efficient use of our computer's power, running different operating system or applications without needing seperate physical hardware for each one.
+
+## Inception (Containerization)
+
+Inception project is about **containerization**. It's related to virtualization, but not quite. In containerization, you create lightweight, portable *containers* that bootstrap or package applications and their dependencies. Containers share the same operating system kernel with the host system, but each containers are isolated from each other. In containerization, there's no need to create virtual instances of host machine's hardware resouces. Instead, it share the host system's kernel, resulting in faster startup times and better utilization of system resources.
+
+Docker is the most popular containerization platform, and it's also the tool that we will be using to containerize our application in this project. There are also other popular containerization platform like Kubernetes, Docker Swarm and Podman.
+
+> Kernel: The central component of an operating system. It acts as a bridge between software applications and the hardware of a computer. The kernel manages system resources, such as memory and CPU time, and facilitates communication between software and hardware management.
+
 ## Docker
 
-### Docker Commands
+### Docker Engine
 
-```shell
-# list all the running containers
-docker ps
+Most of the time, when we talked about Docker, we are referring to its core component, the Docker Engine. It manages containers on your host machine.
 
-# list all the images
-docker images
+### Docker Images
 
-# build images
-docker build -t app:1.0 .
-# docker build <option> <app name> <where is the dockerfile>
-# -t is to name it
-
-# create a running process, called a container
-docker run b909406d737c
-# docker run <image id>
-
-# with port-forwarding:
-docker run -p 5000:8080 b909406d737c
-# port- local:container
-
-# create a volume
-docker volume create shared-stuff
-
-# mount volume
-docker run --mount source=shared_stuff,target=/stuff
-```
+To run an application with Docker, you start by creating a container image. This image should contains everything your application needs to run: the code, libraries, configuration, and dependencies. You create this image using a Dockerfile, which is like a recipe that tells Docker how to build the image.
 
 ### Dockerfile
 
-Every instruction in the Dockerfile is consider as a Layer. To keep things efficient, docker will cache layers if nothing is actually changed.
+The Dockerfile contains a set of instructions for building an image. It tells Docker what to include in the environment and how to set it up. It will always start with a base image, for example `FROM ubuntu:latest`. The base image normally will be an operating system or some common tools. Everything else will be added as new layers above this base layer.
 
-```Dockerfile
-# The first instruction in our Dockerfile (must be)
-# Set the base image to use in the subsequent instructions
-FROM baseImage
-
-# It's like cd into a directory and the subsequent instructions will start from this directory
-WORKDIR /app
-
-# Copy files or folders from source to the dest path in the image's filesystem
-COPY source dest
-COPY hello.txt /absolute/path
-COPY hello.txt relative/to/workdir
-
-# it's like opening a terminal session and run commands
-RUN npm install
-
-# copy source code (demo only)
-# but what if we want to ignore some folders/files?
-# we can do that by creating a .dockerignore (just like a gitignore file)
-COPY . .
-
-# set environment variable
-ENV PORT=8080
-
-# expose port
-EXPOSE 8080
-
-# the final instruction, CMD
-# tells the container how to run the actual application
-# unlike RUN, which is in a SHELL FORM, CMD is in EXEC FORM
-CMD ["npm", "start"]
-```
-
-### Docker Compose
-
-A tool for running multiple docker containers at the same time.
-
-```yml
-version: '3'
-services:
-  web:
-    build: .
-    ports:
-      - "8080:8080"
-  db:
-    image: "mysql"
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-    volumes:
-     - db-data:/foo
-```
-
-Run docker compose:
+### Building Images
 
 ```shell
-docker-compose up
+docker build -t my-image /path/to/Dockerfile
 ```
+
+Once you have a Dockerfile, you can use the Docker CLI to build the image. Docker will takes the intructions in the Dockerfile and creates an image.
+
+### Running containers
+
+```shell
+docker run my-image
+```
+
+To run your application, you start a container from the image you built. A contaienr is essentially an instance of an image running as a process on your system. When you start a container, Docker creates a lightweight, isolated environment for your application to run in. This environment includes its own filesystem, network, and storage (enough amount of an OS, not the entire OS).
+
+### Container lifecycle
+
+```shell
+docker stop my-container
+docker rm my-container
+docker exec -it my-container bash
+```
+
+Once your contaienr is running, Docker manages its lifecycle. You can start, stop, restart, remove containers using the Docker CLI. You can also access the container environment using some commands.
