@@ -96,4 +96,111 @@ docker rm my-container
 docker exec -it my-container bash
 ```
 
-Once your contaienr is running, Docker manages its lifecycle. You can start, stop, restart, remove containers using the Docker CLI. You can also access the container environment using some commands.
+Once your container is running, Docker manages its lifecycle. You can start, stop, restart, remove containers using the Docker CLI. You can also access the container environment using some commands.
+
+## Docker Compose
+
+Docker compose is a tool that makes running multiple Docker container easier. This is by describing everything in a declarative config file (.yml file) and using command like `docker compose up` to bring your whole application to life, with all the containers, networks, and settings set up just the way you want them. This is extremely helpful if you want to deploy an infrastructure with multiple microservices. You don't have to type all the long docker commands to run all your containers, just a few simple set of commands will do.
+
+## Docker vs VM
+
+- Containers and VMs both need a host, whether it's a laptop, a bare metal server in your data center or and instance in the public cloud to run.
+- VM needs to run on a hypervisor. Hypervisor claims the **physical resources** such as CPU, RAM, storage and network cards. It then create virtual constructs of those hardware resources that feel exactly like the real thing. Then it packages them into a software construct called a virtual machine.
+- For containers, we need to install a container engine such as Docker. The container engine separates the **OS resources** (process tree, filesystem, network stack, etc.) and packages them into virtual operating systems called *containers*. Each container works just like a real OS.
+- Hypervisors perform **hardware virtualization**, which makes physical hardware resources into virtual versions called VMs. For containers, it perform **OS virtualization**, which made OS resources into virtual versions called containers.
+- VM has higher VM tax than containers. For VM, it needs to construct all those virtual versions of physical hardware. For container, it just share the host operating system's kernel, there's no need to create those virtual constructs.
+- VM has higher OS tax because it requires a full OS installation. Running multiple VMs on a single host can result in duplicated OS components and increased resource usage. Container still incur some OS tax because it rely on the host operating system. However, this overhead is generally way lower compared to running multiple VMs with separate OS instances.
+- Containers start faster than VMs because they only need to start the application, with the kernl already running. VMs have to boot up the operating system.
+
+### VM Tax
+
+VM tax refers to the overhead or extra resources required to run a virtual machine. When you create a VM, the VM consumes resources such as CPU, memoty, and storage, even when it's not actively doing anything. This overhead is often referred to as the VM tax because it represents the additional cost incurred by using virtualization. Besides that, some OS also need their own licenses, as well as people to maintain and update them. These are considered as part of the VM tax as well.
+
+### OS Tax
+
+OS tax refers to the overhead of running an operating system in general. Every OS requires resources to run, whether it's on physical hardware or within a virtual machine.
+
+## Others
+
+### SSL/TLS certificates
+
+SSL/TLS certificates are digital documents used to secure and authenticate communication over the internet. It plays a crucial role in establishing secure and trustworthy communication channels over the internet by encypting data, authenticating the identity of servers, and ensuring the integrity of transmitted information.
+
+The wordpress site will shows that the certificate is not safe and this is normal. This is because we are using a self-signed certificates. Normally, it should be issued by trusted 3rd-party certificate authorities.
+
+### Mariadb login
+
+```shell
+# login as root after exec
+mysql # should throw error
+
+# login as root using password
+mysql -p
+
+#login as user using password
+mysql -u <user> -p
+```
+
+## Docker network
+
+Docker network is a feature of Docker that enables communication between Docker containers, allowing them to interact with other and with external networks. Docker provides various type of network configuration and one of them is bridge networks, which is used in this project.
+
+With bridge network, Docker creates a virtual network interfaces (like a virtual cable) that connects all the containers on that network. All containers on the same bridge network can communicate with each other. Containers on a bridge network can also communicate with the host machine and external networks. Docker handles the routing and network configuration to make this possible.
+
+Docker allows direct communication between containers using their names as hostnames. This simplifies the configuration and management of container communication, enabling seamless connectivity between containers within the same Docker network.
+
+### Docker volumes
+
+There are two main types of data: persistent and non-persistent.
+
+Persistent data is data that you need to keep. Non-persistent is data that you don't need to keep. By default, all containers get a layer of writable non-persistent storage that lives and dies with the container, which is called local storage.
+
+Docker volumes are storage units that containers use to store and share data. It exists outside of the container filesystem, making data persistent even if the container is stopped or removed. Common use cases including using it as database storage, to store configuration files, and shared application data.
+
+### Services
+
+- nginx: A web server that can handles HTTP requests and server web pages efficiently.
+- wordpress: A content management system for creating websites and blogs.
+- mariadb: a relational database management system
+- redis: an in-memory data structure store used as a database and cache.
+- adminer: a lightweight database management tool for mysql, postgresql, and other database
+- cadvisor: a container monitoring tool that provides detailed information about resource usage and performance metrics.
+- ftp: a standard network protocol used for transferring files between a client and a server.
+
+#### Redis check cache
+
+```shell
+# retrieve all keys stored in the database
+KEYS *
+
+# retrieve the value associated with a specific key
+GET key_name
+```
+
+#### How to use FTP
+
+```shell
+# connect
+ftp ftp.example.com
+
+# login
+user username
+
+# list directory
+ls
+
+# change directory
+cd directory_name
+
+# download a file
+get filename
+
+# upload a file
+put filename
+
+# delete a file
+delete filename
+
+# quit
+quit
+```
