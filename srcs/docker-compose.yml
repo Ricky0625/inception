@@ -1,6 +1,7 @@
 version: '3'
 services:
   nginx:
+    image: nginx:1.0
     container_name: nginx
     build: requirements/nginx
     volumes:
@@ -15,6 +16,7 @@ services:
     restart: unless-stopped
 
   wordpress:
+    image: wordpress:1.0
     container_name: wordpress
     build: requirements/wordpress
     volumes:
@@ -28,6 +30,7 @@ services:
     restart: unless-stopped
     
   mariadb:
+    image: mariadb:1.0
     container_name: mariadb
     build: requirements/mariadb
     volumes:
@@ -40,6 +43,7 @@ services:
   
   # bonus
   ftp:
+    image: ftp:1.0
     container_name: ftp
     build: requirements/bonus/ftp
     volumes:
@@ -57,6 +61,7 @@ services:
     restart: unless-stopped
   
   static:
+    image: static:1.0
     container_name: static
     build: requirements/bonus/static
     networks:
@@ -64,6 +69,7 @@ services:
     restart: unless-stopped
   
   adminer:
+    image: adminer:1.0
     container_name: adminer
     build: requirements/bonus/adminer
     networks:
@@ -73,6 +79,7 @@ services:
     restart: unless-stopped
   
   redis:
+    image: redis:1.0
     container_name: redis
     build: requirements/bonus/redis
     networks:
@@ -82,6 +89,7 @@ services:
     restart: unless-stopped
   
   cadvisor:
+    image: cadvisor:1.0
     container_name: cadvisor
     build: requirements/bonus/cadvisor
     volumes:
